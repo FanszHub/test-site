@@ -10,13 +10,15 @@ import (
 
 func StartMyApp(port int){
 
-	db, err := Models.NewDB("Tmp/MyDatabase")
+	_, err := Models.NewDB("Tmp/MyDatabase")
 
 	if err != nil {
 		log.Fatal(err)
 	}
 
-	env := &Api.Env{Db:db}
+//	env := &Api.Env{Db:db}
+
+	env := &Api.Env{Db:nil}
 
 	http.ListenAndServe(fmt.Sprintf(":%v",port), Api.Handlers(env))
 }
