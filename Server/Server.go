@@ -10,7 +10,7 @@ import (
 
 func StartMyApp(port int){
 
-	db, err := Models.NewDB("/Tmp/MyDatabase")
+	db, err := Models.NewDB("../Tmp/MyDatabase")
 
 	if err != nil {
 		log.Fatal(err)
