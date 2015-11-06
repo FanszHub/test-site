@@ -4,19 +4,19 @@ import (
 	"net/http"
 	"fmt"
 	"github.com/FanszHub/test-site/Api"
-//	"github.com/FanszHub/test-site/Models"
-//	"log"
+	"github.com/FanszHub/test-site/Models"
+	"log"
 )
 
 func StartMyApp(port int){
 
-//	db, err := Models.NewDB("Tmp/MyDatabase")
-/*
+	db, err := Models.NewDB("Tmp/MyDatabase")
+
 	if err != nil {
-		log.Panic(err)
+		log.Fatal(err)
 	}
-*/
-	env := &Api.Env{Db:nil}
+
+	env := &Api.Env{Db:db}
 
 	http.ListenAndServe(fmt.Sprintf(":%v",port), Api.Handlers(env))
 }
