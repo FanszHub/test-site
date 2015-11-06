@@ -30,7 +30,11 @@ func NewDB(path string) (*DB, error){
 
 	log.Println("Creating users")
 
-	db.Create("Users")
+	err = db.Create("Users")
+
+	if err != nil {
+		log.Println(err)
+	}
 
 	log.Println("Created users")
 
