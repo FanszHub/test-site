@@ -1,0 +1,1 @@
+Makes a folder for the database :)
