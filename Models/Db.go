@@ -1,6 +1,9 @@
 package Models
 
-import "github.com/HouzuoGuo/tiedot/db"
+import (
+	"github.com/HouzuoGuo/tiedot/db"
+	"log"
+)
 
 type Datastore interface {
 	AllUsers() ([]*User, error)
@@ -11,13 +14,25 @@ type DB struct {
 }
 
 func NewDB(path string) (*DB, error){
+
+	log.Println("Opening db")
+
+	log.Println(path)
+
 	db, err := db.OpenDB(path)
 
+	log.Println("Creating users")
+
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
-	err = db.Create("Users")
+	log.Println("Creating users")
 
-	return &DB{db}, err
+	db.Create("Users")
+
+	log.Println("Created users")
+
+	return &DB{db}, nil
 }
