@@ -6,3 +6,7 @@ go:
 
 notifications:
   slack: fansz:oHm7ZT5ahkHwyn4Rnyvl6DAw
+
+before_script:
+  - mkdir /Tmp
+  - mkdir /Tmp/MyDatabase
