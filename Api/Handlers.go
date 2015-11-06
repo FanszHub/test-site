@@ -13,7 +13,7 @@ type Env struct {
 func Handlers(env *Env) *mux.Router{
 	r := mux.NewRouter()
 
-	r.Handle("/users", UserHandler(env)).Methods("GET")
+	//r.Handle("/users", UserHandler(env)).Methods("GET")
 	r.Handle("/", HomeHandler()).Methods("GET")
 
 	http.Handle("/", r)
