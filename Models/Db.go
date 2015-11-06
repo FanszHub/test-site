@@ -3,7 +3,7 @@ package Models
 import (
 	"github.com/HouzuoGuo/tiedot/db"
 	"log"
-	"os"
+//	"os"
 )
 
 type Datastore interface {
@@ -16,13 +16,8 @@ type DB struct {
 
 func NewDB(path string) (*DB, error){
 
-	log.Println("Opening db")
+//	os.RemoveAll(path)
 
-	log.Println(path)
-
-	os.RemoveAll(path)
-
-	// (Create if not exist) open a database
 	db, err := db.OpenDB(path)
 
 	log.Println("Creating users")
