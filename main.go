@@ -9,7 +9,8 @@ func main(){
 
 	log.Println("Starting server")
 
-	Server.StartMyApp(3030)
+	Server.StartMyApp(3434)
 
 	log.Println("Started?")
 }
+

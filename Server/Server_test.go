@@ -8,9 +8,9 @@ import (
 	"testing"
 )
 
-func TestTokenFileserve(t *testing.T) {
+func TestServer(t *testing.T) {
 	RegisterFailHandler(Fail)
-	RunSpecs(t, "TokenFileserve Suite")
+	RunSpecs(t, "Server Suite")
 }
 
 var agoutiDriver *agouti.WebDriver
@@ -38,6 +38,7 @@ var _ = Describe("UserRegister", func() {
 		Context("when the user registration is reached",func() {
 			It("should see the page", func() {
 				Expect(page.Navigate("http://localhost:3131")).To(Succeed())
+
 				Expect(page).To(HaveURL("http://localhost:3131/"))
 			})
 		})
