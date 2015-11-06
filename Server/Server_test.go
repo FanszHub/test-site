@@ -32,6 +32,7 @@ var _ = Describe("UserRegister", func() {
 
 	AfterEach(func() {
 		Expect(page.Destroy()).To(Succeed())
+		Expect(agoutiDriver.Stop()).To(Succeed())
 	})
 
 	Describe("User Registration page", func() {
