@@ -26,7 +26,7 @@ var _ = Describe("UserRegister", func() {
 
 	It("string", func(){
 
-		go StartMyApp(3232, "TESTGoNuts")
+		go StartMyApp(3333, "TESTGoNuts")
 
 		userJson := `{"username": "dennis"}`
 
