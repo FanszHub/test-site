@@ -6,6 +6,7 @@ import (
 	. "github.com/sclevine/agouti/matchers"
 	"github.com/sclevine/agouti"
 	"testing"
+	"gopkg.in/mgo.v2"
 )
 
 func TestServer(t *testing.T) {
@@ -18,7 +19,13 @@ var agoutiDriver *agouti.WebDriver
 var _ = Describe("UserRegister", func() {
 	var page *agouti.Page
 
-	BeforeEach(func() {
+	BeforeSuite(func() {
+
+		session, _ := mgo.Dial("localhost")
+
+		session.DB("TESTGoNuts").DropDatabase()
+
+
 		agoutiDriver = agouti.PhantomJS()
 
 		Expect(agoutiDriver.Start()).To(Succeed())
@@ -30,7 +37,7 @@ var _ = Describe("UserRegister", func() {
 		Expect(err).NotTo(HaveOccurred())
 	})
 
-	AfterEach(func() {
+	AfterSuite(func() {
 		Expect(page.Destroy()).To(Succeed())
 		Expect(agoutiDriver.Stop()).To(Succeed())
 	})
