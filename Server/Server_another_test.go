@@ -32,13 +32,13 @@ var _ = Describe("UserRegister", func() {
 
 		reader := strings.NewReader(userJson) //Convert string to reader
 
-		request, _ := http.NewRequest("POST", "http://localhost:3232/users", reader) //Create request with JSON body
+		request, _ := http.NewRequest("POST", "http://localhost:3333/users", reader) //Create request with JSON body
 
 		res, _ := http.DefaultClient.Do(request)
 
 		Expect(res.StatusCode).To(Equal(200))
 
-		request, _ = http.NewRequest("GET", "http://localhost:3232/users", nil) //Create request with JSON body
+		request, _ = http.NewRequest("GET", "http://localhost:3333/users", nil) //Create request with JSON body
 
 		res, _ = http.DefaultClient.Do(request)
 
