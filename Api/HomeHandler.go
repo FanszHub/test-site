@@ -1,15 +1,14 @@
 package Api
 
 import (
-	"net/http"
+	"github.com/gin-gonic/gin"
 )
 
-func HomeHandler() http.Handler{
+func HomeHandler() gin.HandlerFunc{
+	return func(c *gin.Context){
 
-	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
-
-		w.Write([]byte("ok"))
+		c.Writer.Write([]byte("ok"))
 
 		return
-	})
+	}
 }

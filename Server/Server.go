@@ -1,16 +1,15 @@
 package Server
 
 import (
-	"net/http"
 	"fmt"
 	"github.com/FanszHub/test-site/Api"
 	"github.com/FanszHub/test-site/Models"
 	"log"
 )
 
-func StartMyApp(port int){
+func StartMyApp(port int, dbName string){
 
-	db, err := Models.NewDB("GoNuts")
+	db, err := Models.NewDB(dbName)
 
 	if err != nil {
 		log.Fatal(err)
@@ -18,5 +17,7 @@ func StartMyApp(port int){
 
 	env := &Api.Env{Db:db}
 
-	http.ListenAndServe(fmt.Sprintf(":%v",port), Api.Handlers(env))
+	routes := Api.Routers(env)
+
+	routes.Run(fmt.Sprintf(":%v",port))
 }

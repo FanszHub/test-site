@@ -47,7 +47,7 @@ var _ = Describe("UserRegister", func() {
 
 		env := &Env{Db: &mockDB{}}
 
-		server = httptest.NewServer(Handlers(env))
+		server = httptest.NewServer(Routers(env))
 
 		usersUrl = fmt.Sprintf("%s/users", server.URL)
 	})

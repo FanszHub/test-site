@@ -23,7 +23,7 @@ var _ = Describe("UserRegister", func() {
 
 		Expect(agoutiDriver.Start()).To(Succeed())
 
-		go StartMyApp(3131)
+		go StartMyApp(3232, "TESTGoNuts")
 
 		var err error
 		page, err = agoutiDriver.NewPage(agouti.Browser("chrome"))
@@ -38,9 +38,9 @@ var _ = Describe("UserRegister", func() {
 	Describe("User Registration page", func() {
 		Context("when the user registration is reached",func() {
 			It("should see the page", func() {
-				Expect(page.Navigate("http://localhost:3131")).To(Succeed())
+				Expect(page.Navigate("http://localhost:3232")).To(Succeed())
 
-				Expect(page).To(HaveURL("http://localhost:3131/"))
+				Expect(page).To(HaveURL("http://localhost:3232/"))
 			})
 		})
 	})
