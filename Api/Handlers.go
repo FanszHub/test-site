@@ -1,7 +1,6 @@
 package Api
 
 import (
-	"net/http"
 	"github.com/gorilla/mux"
 	"github.com/FanszHub/test-site/Models"
 )
@@ -13,10 +12,9 @@ type Env struct {
 func Handlers(env *Env) *mux.Router{
 	r := mux.NewRouter()
 
-	r.Handle("/users", UserHandler(env)).Methods("GET")
+	r.Handle("/users", UserIndex(env)).Methods("GET")
+	r.Handle("/users", CreateUser(env)).Methods("POST")
 	r.Handle("/", HomeHandler()).Methods("GET")
-
-	http.Handle("/", r)
 
 	return r
 }

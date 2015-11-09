@@ -3,9 +3,12 @@ package Api
 import (
 "net/http"
 "github.com/FanszHub/test-site/Models"
+	"io/ioutil"
+	"io"
+	"encoding/json"
 )
 
-func UserHandler(env *Env) http.Handler{
+func UserIndex(env *Env) http.Handler{
 	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
 
 		var users []*Models.User
@@ -15,9 +18,32 @@ func UserHandler(env *Env) http.Handler{
 			panic(err)
 		}
 
-		w.Write([]byte(users[0].Username))
+		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
 
-		return
+		if err := json.NewEncoder(w).Encode(users); err != nil {
+			panic(err)
+		}
 	})
+}
 
+func CreateUser(env *Env) http.Handler{
+	return http.HandlerFunc(func(w http.ResponseWriter, r *http.Request){
+
+		var user *Models.User
+
+		body, err := ioutil.ReadAll(io.LimitReader(r.Body, 1048576))
+
+		if err != nil {
+			panic(err)
+		}
+
+		json.Unmarshal(body,&user)
+
+		env.Db.AddUser(user)
+
+		w.Header().Set("Content-Type", "application/json;charset=UTF-8")
+		w.WriteHeader(http.StatusOK)
+
+	})
 }

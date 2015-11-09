@@ -1,41 +1,30 @@
 package Models
 
 import (
-	"github.com/HouzuoGuo/tiedot/db"
 	"log"
-//	"os"
+	"gopkg.in/mgo.v2"
+//	"gopkg.in/mgo.v2/bson"
 )
 
 type Datastore interface {
 	AllUsers() ([]*User, error)
+	AddUser(*User) (error)
 }
 
 type DB struct {
-	*db.DB
+	*mgo.Database
 }
 
-func NewDB(path string) (*DB, error){
+func NewDB(name string) (*DB, error){
 
-//	os.RemoveAll(path)
-
-	db, err := db.OpenDB(path)
-
-	log.Println("Creating users")
+	session, err := mgo.Dial("localhost")
 
 	if err != nil {
 		log.Println(err)
 		return nil, err
 	}
 
-	log.Println("Creating users")
+	c := session.DB(name)
 
-	//err = db.Create("Users")
-
-	if err != nil {
-		log.Println(err)
-	}
-
-	log.Println("Created users")
-
-	return &DB{db}, nil
+	return &DB{c}, nil
 }

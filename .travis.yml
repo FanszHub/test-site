@@ -4,5 +4,9 @@ language: go
 go:
   - tip
 
+
 notifications:
   slack: fansz:oHm7ZT5ahkHwyn4Rnyvl6DAw
+
+services:
+  - mongodb

@@ -1,5 +1,4 @@
 package Models
-import "encoding/json"
 
 type User struct {
 	Username string
@@ -7,16 +6,20 @@ type User struct {
 
 func (db *DB) AllUsers() ([]*User, error) {
 
-	rows := db.Use("Users")
+	var users []*User
 
-	users := make([]*User, 0)
+	err := db.C("Users").Find(nil).All(&users)
 
-	rows.ForEachDoc(func(id int, docContent []byte)(willMoveOn bool){
-		var u *User
-		_ = json.Unmarshal(docContent, u)
-		users = append(users, u)
-		return true
-	})
+	if err != nil {
+		panic(err)
+	}
 
 	return users, nil
+}
+
+func (db *DB) AddUser(user *User) (error) {
+
+	err := db.C("Users").Insert(user)
+
+	return err
 }
