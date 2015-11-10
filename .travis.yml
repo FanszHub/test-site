@@ -7,6 +7,7 @@ go:
 
 notifications:
   slack: fansz:oHm7ZT5ahkHwyn4Rnyvl6DAw
+  slack: fansz-always-on:ecVByVC9qrxQTxpLWnqMYlit
 
 services:
   - mongodb

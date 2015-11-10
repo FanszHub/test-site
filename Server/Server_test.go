@@ -25,7 +25,6 @@ var _ = Describe("UserRegister", func() {
 
 		session.DB("TESTGoNuts").DropDatabase()
 
-
 		agoutiDriver = agouti.PhantomJS()
 
 		Expect(agoutiDriver.Start()).To(Succeed())
