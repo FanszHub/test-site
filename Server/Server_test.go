@@ -8,7 +8,6 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 )
 
-
 func TestSpec(t *testing.T) {
 	Convey("UserRegister", t, func() {
 		var agoutiDriver *agouti.WebDriver

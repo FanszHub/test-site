@@ -31,7 +31,10 @@ func TestStuff(t *testing.T) {
 			request, _ := http.NewRequest("POST", "http://localhost:3333/users", reader) //Create request with JSON body
 			request.Header.Set("Content-Type", "application/json")
 
-			res, _ := http.DefaultClient.Do(request)
+			res, err := http.DefaultClient.Do(request)
+
+			log.Println(res)
+			log.Println(err)
 
 			So(res.StatusCode, ShouldEqual, 200)
 
