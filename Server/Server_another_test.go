@@ -21,21 +21,21 @@ func TestStuff(t *testing.T) {
 
 		log.Println("Starting")
 
-		go StartMyApp(3232, "TESTGoNuts")
+		go StartMyApp(3333, "TESTGoNuts")
 
-		Convey("Test", func() {
+		Convey("Test ", func() {
 			userJson := `{"username": "dennis"}`
 
 			reader := strings.NewReader(userJson) //Convert string to reader
 
-			request, _ := http.NewRequest("POST", "http://localhost:3232/users", reader) //Create request with JSON body
+			request, _ := http.NewRequest("POST", "http://localhost:3333/users", reader) //Create request with JSON body
 			request.Header.Set("Content-Type", "application/json")
 
 			res, _ := http.DefaultClient.Do(request)
 
 			So(res.StatusCode, ShouldEqual, 200)
 
-			request, _ = http.NewRequest("GET", "http://localhost:3232/users", nil) //Create request with JSON body
+			request, _ = http.NewRequest("GET", "http://localhost:3333/users", nil) //Create request with JSON body
 
 			res, _ = http.DefaultClient.Do(request)
 
