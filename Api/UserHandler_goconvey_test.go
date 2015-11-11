@@ -10,11 +10,33 @@ import (
 	"io/ioutil"
 	"github.com/FanszHub/test-site/Env"
 	. "github.com/smartystreets/goconvey/convey"
+	"bytes"
 )
 
-func TestSpec(t *testing.T) {
+var (
+	server *httptest.Server
+	usersUrl string
+	users []*Models.User
+)
 
-	// Only pass t into top-level Convey calls
+type mockDB struct{}
+
+func (mdb *mockDB) AllUsers() ([]*Models.User, error) {
+	users = make([]*Models.User, 0)
+	users = append(users, &Models.User{"Emma"})
+	users = append(users, &Models.User{"Steve"})
+
+	return users, nil
+}
+
+func (mdb *mockDB) AddUser(user *Models.User) (error) {
+	users = make([]*Models.User, 0)
+	users = append(users, user)
+
+	return nil
+}
+
+func TestSpec(t *testing.T) {
 	Convey("Given some integer with a starting value", t, func() {
 
 		var env = Env.Env{UserRepository: &mockDB{}}
@@ -46,5 +68,28 @@ func TestSpec(t *testing.T) {
 				})
 			})
 		})
+
+		Convey("Post users", func() {
+			Convey("should save a user", func() {
+
+				var user Models.User
+				user.Username = "Thing"
+
+				json, _ := json.Marshal(user)
+
+				var body = bytes.NewReader(json)
+
+				request, err := http.NewRequest("POST", usersUrl, body)
+				request.Header.Set("Content-Type", "application/json")
+
+				res, err := http.DefaultClient.Do(request)
+
+				So(err, ShouldBeNil)
+				So(res.StatusCode, ShouldEqual, 200)
+				So(len(users), ShouldEqual, 1)
+				So(users[0].Username, ShouldEqual, "Thing")
+			})
+		})
+
 	})
 }

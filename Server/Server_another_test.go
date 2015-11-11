@@ -1,43 +1,55 @@
 package Server
 
 import (
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
 	"strings"
 	"net/http"
 	"io/ioutil"
 	"github.com/FanszHub/test-site/Models"
 	"encoding/json"
+	"testing"
+	. "github.com/smartystreets/goconvey/convey"
+	"gopkg.in/mgo.v2"
+	"log"
 )
 
-var _ = Describe("UserRegister", func() {
+func TestStuff(t *testing.T) {
+	Convey("UserRegister", t, func() {
 
-	It("string", func(){
-		userJson := `{"username": "dennis"}`
+		session, _ := mgo.Dial("localhost")
 
-		reader := strings.NewReader(userJson) //Convert string to reader
+		session.DB("TESTGoNuts").DropDatabase()
 
-		request, _ := http.NewRequest("POST", "http://localhost:3232/users", reader) //Create request with JSON body
-		request.Header.Set("Content-Type", "application/json")
+		log.Println("Starting")
 
-		res, _ := http.DefaultClient.Do(request)
+		go StartMyApp(3232, "TESTGoNuts")
 
-		Expect(res.StatusCode).To(Equal(200))
+		Convey("Test", func() {
+			userJson := `{"username": "dennis"}`
 
-		request, _ = http.NewRequest("GET", "http://localhost:3232/users", nil) //Create request with JSON body
+			reader := strings.NewReader(userJson) //Convert string to reader
 
-		res, _ = http.DefaultClient.Do(request)
+			request, _ := http.NewRequest("POST", "http://localhost:3232/users", reader) //Create request with JSON body
+			request.Header.Set("Content-Type", "application/json")
 
-		Expect(res.StatusCode).To(Equal(200))
+			res, _ := http.DefaultClient.Do(request)
 
-		content, _ := ioutil.ReadAll(res.Body)
+			So(res.StatusCode, ShouldEqual, 200)
 
-		var users []Models.User
+			request, _ = http.NewRequest("GET", "http://localhost:3232/users", nil) //Create request with JSON body
 
-		json.Unmarshal(content,&users)
+			res, _ = http.DefaultClient.Do(request)
 
-		Expect(len(users)).To(Equal(1))
-		Expect(users[0].Username).To(Equal("dennis"))
+			So(res.StatusCode, ShouldEqual, 200)
 
+			content, _ := ioutil.ReadAll(res.Body)
+
+			var users []Models.User
+
+			json.Unmarshal(content, &users)
+
+			So(len(users), ShouldEqual, 1)
+			So(users[0].Username, ShouldEqual, "dennis")
+
+		})
 	})
-})
+}

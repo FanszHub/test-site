@@ -1,26 +1,18 @@
 package Server
 
 import (
-	. "github.com/onsi/ginkgo"
-	. "github.com/onsi/gomega"
-	. "github.com/sclevine/agouti/matchers"
 	"github.com/sclevine/agouti"
 	"testing"
 	"gopkg.in/mgo.v2"
 	"log"
+	. "github.com/smartystreets/goconvey/convey"
 )
 
-func TestServer(t *testing.T) {
-	RegisterFailHandler(Fail)
-	RunSpecs(t, "Server Suite")
-}
 
-var agoutiDriver *agouti.WebDriver
-
-var _ = Describe("UserRegister", func() {
-	var page *agouti.Page
-
-	BeforeSuite(func() {
+func TestSpec(t *testing.T) {
+	Convey("UserRegister", t, func() {
+		var agoutiDriver *agouti.WebDriver
+		var page *agouti.Page
 
 		session, _ := mgo.Dial("localhost")
 
@@ -28,7 +20,7 @@ var _ = Describe("UserRegister", func() {
 
 		agoutiDriver = agouti.PhantomJS()
 
-		Expect(agoutiDriver.Start()).To(Succeed())
+		So(agoutiDriver.Start(), ShouldBeNil)
 
 		log.Println("Starting")
 
@@ -36,21 +28,23 @@ var _ = Describe("UserRegister", func() {
 
 		var err error
 		page, err = agoutiDriver.NewPage(agouti.Browser("chrome"))
-		Expect(err).NotTo(HaveOccurred())
-	})
+		So(err, ShouldBeNil)
 
-	AfterSuite(func() {
-		Expect(page.Destroy()).To(Succeed())
-		Expect(agoutiDriver.Stop()).To(Succeed())
-	})
+		Convey("User Registration page", func() {
+			Convey("when the user registration is reached", func() {
+				Convey("should see the page", func() {
+					So(page.Navigate("http://localhost:3232"), ShouldBeNil)
 
-	Describe("User Registration page", func() {
-		Context("when the user registration is reached",func() {
-			It("should see the page", func() {
-				Expect(page.Navigate("http://localhost:3232")).To(Succeed())
-
-				Expect(page).To(HaveURL("http://localhost:3232/"))
+					url, _ := page.URL()
+					So(url, ShouldEqual, "http://localhost:3232/")
+				})
 			})
 		})
+
+
+		Reset(func() {
+			So(page.Destroy(), ShouldBeNil)
+			So(agoutiDriver.Stop(), ShouldBeNil)
+		})
 	})
-})
+}
