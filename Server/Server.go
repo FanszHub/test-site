@@ -2,22 +2,35 @@ package Server
 
 import (
 	"fmt"
-	"github.com/FanszHub/test-site/Api"
-	"github.com/FanszHub/test-site/Models"
 	"log"
-)
+	"github.com/facebookgo/inject"
+	"github.com/FanszHub/test-site/Data"
+	"github.com/FanszHub/test-site/Env"
+	"github.com/FanszHub/test-site/Api")
 
-func StartMyApp(port int, dbName string){
+func StartMyApp(port int, dbName string) {
 
-	db, err := Models.NewDB(dbName)
+	var env Env.Env
+	var g inject.Graph
+
+	db, e := Data.NewDB(dbName)
+
+	log.Println(e)
+
+	err := g.Provide(
+		&inject.Object{Value: &env},
+		&inject.Object{Value: db},
+	)
 
 	if err != nil {
-		log.Fatal(err)
+		log.Fatalf("Error providing dependencies: ", err.Error())
 	}
 
-	env := &Api.Env{Db:db}
+	if err := g.Populate(); err != nil {
+		log.Fatalf("Error providing dependencies: ", err.Error())
+	}
 
-	routes := Api.Routers(env)
+	routes := Api.Routes(env)
 
-	routes.Run(fmt.Sprintf(":%v",port))
+	routes.Run(fmt.Sprintf(":%v", port))
 }

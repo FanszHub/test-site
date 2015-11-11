@@ -1,15 +1,9 @@
-package Models
+package Data
 
 import (
 	"log"
 	"gopkg.in/mgo.v2"
-//	"gopkg.in/mgo.v2/bson"
 )
-
-type Datastore interface {
-	AllUsers() ([]*User, error)
-	AddUser(*User) (error)
-}
 
 type DB struct {
 	*mgo.Database

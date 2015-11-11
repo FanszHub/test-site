@@ -7,6 +7,7 @@ import (
 	"github.com/sclevine/agouti"
 	"testing"
 	"gopkg.in/mgo.v2"
+	"log"
 )
 
 func TestServer(t *testing.T) {
@@ -28,6 +29,8 @@ var _ = Describe("UserRegister", func() {
 		agoutiDriver = agouti.PhantomJS()
 
 		Expect(agoutiDriver.Start()).To(Succeed())
+
+		log.Println("Starting")
 
 		go StartMyApp(3232, "TESTGoNuts")
 

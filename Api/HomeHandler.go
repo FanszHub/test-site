@@ -4,8 +4,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func HomeHandler() gin.HandlerFunc {
-	return func(c *gin.Context) {
+func HomeHandler(c *gin.Context){
 		c.JSON(200, "ok")
-	}
 }

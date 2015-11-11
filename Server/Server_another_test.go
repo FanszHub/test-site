@@ -18,6 +18,7 @@ var _ = Describe("UserRegister", func() {
 		reader := strings.NewReader(userJson) //Convert string to reader
 
 		request, _ := http.NewRequest("POST", "http://localhost:3232/users", reader) //Create request with JSON body
+		request.Header.Set("Content-Type", "application/json")
 
 		res, _ := http.DefaultClient.Do(request)
 

@@ -11,6 +11,7 @@ import (
 	"encoding/json"
 	"bytes"
 	"io/ioutil"
+	"github.com/FanszHub/test-site/Env"
 )
 
 var (
@@ -45,9 +46,9 @@ var _ = Describe("UserRegister", func() {
 
 	BeforeEach(func() {
 
-		env := &Env{Db: &mockDB{}}
+		env := Env.Env{UserRepository: &mockDB{}}
 
-		server = httptest.NewServer(Routers(env))
+		server = httptest.NewServer(Routes(env))
 
 		usersUrl = fmt.Sprintf("%s/users", server.URL)
 	})
@@ -93,6 +94,7 @@ var _ = Describe("UserRegister", func() {
 				var body = bytes.NewReader(json)
 
 				request, err := http.NewRequest("POST", usersUrl, body)
+				request.Header.Set("Content-Type", "application/json")
 
 				res, err := http.DefaultClient.Do(request)
 
