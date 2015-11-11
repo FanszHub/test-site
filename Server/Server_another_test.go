@@ -8,22 +8,22 @@ import (
 	"encoding/json"
 	"testing"
 	. "github.com/smartystreets/goconvey/convey"
-	"gopkg.in/mgo.v2"
+	//"gopkg.in/mgo.v2"
 	"log"
 )
 
 func TestStuff(t *testing.T) {
 	Convey("UserRegister", t, func() {
 
-		session, _ := mgo.Dial("localhost")
+		//session, _ := mgo.Dial("localhost")
 
-		session.DB("TESTGoNuts").DropDatabase()
+		//session.DB("TESTGoNuts").DropDatabase()
 
 		log.Println("Starting")
 
 		go StartMyApp(3333, "TESTGoNuts")
 
-		Convey("Test ", func() {
+		Convey("Testing", func() {
 			userJson := `{"username": "dennis"}`
 
 			reader := strings.NewReader(userJson) //Convert string to reader
