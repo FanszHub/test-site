@@ -10,6 +10,7 @@ import (
 	. "github.com/smartystreets/goconvey/convey"
 	//"gopkg.in/mgo.v2"
 	"log"
+	"time"
 )
 
 func TestStuff(t *testing.T) {
@@ -22,6 +23,10 @@ func TestStuff(t *testing.T) {
 		log.Println("Starting")
 
 		go StartMyApp(3333, "TESTGoNuts")
+
+		duration := time.Minute
+
+		time.Sleep(duration)
 
 		Convey("Testing", func() {
 			userJson := `{"username": "dennis"}`
